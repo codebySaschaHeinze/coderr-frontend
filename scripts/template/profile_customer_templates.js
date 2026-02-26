@@ -69,16 +69,12 @@ function getCustomerProfileTemplate() {
                 <h1 class="font_prime_color">Mein Profil</h1>
                 <div class="d_flex_cs_gxl profile_customer">
                     <div class="d_flex_cc_gm f_d_c">
-                        <img class="profile_img_l" src="${getPersonImgPath(
-                          currentUser.file
-                        )}" alt="Profilbild">
+                        <img class="profile_img_l" src="${getPersonImgPath(currentUser.file)}" alt="Profilbild">
                     </div>
                     <div class="d_flex_cs_gl f_d_c offer_card">
 
                         <div class="d_flex_cs_gm about_me_header f_d_r_resp_c">
-                            <h3>${currentUser.first_name} ${
-    currentUser.last_name
-  }</h3>
+                            <h3>${currentUser.first_name} ${currentUser.last_name}</h3>
                             <p class="font_sec_color">
                                 @${currentUser.username}
                             </p>
@@ -91,13 +87,9 @@ function getCustomerProfileTemplate() {
                             </p>
                             <p class="d_flex_cc_gm">
                                 <img src="./assets/icons/person.svg" alt="" srcset="">
-                                Mitglied seit ${formatToMonthYearAndDay(
-                                  currentUser.created_at
-                                )}
+                                Mitglied seit ${formatToMonthYearAndDay(currentUser.created_at)}
                             </p>
-                            <button onclick="redirectToCustomerProfile(${
-                              currentUser.user
-                            })" class="std_btn btn_prime d_flex_cc_gm w_full">
+                            <button onclick="redirectToCustomerProfile(${currentUser.user})" class="std_btn btn_prime d_flex_cc_gm w_full">
                                 <img src="./assets/icons/visibility.svg" alt="" srcset="">
                                 zum öffentlichen Profil
                             </button>
@@ -137,36 +129,28 @@ function getCustomerDialogFormTemplate() {
                         <h2 class="font_prime_color p_top_s">Profil editieren</h2>
 
                         <div class="image_input_box">
-                            <img id="customer_profile_img_input_output" class="profile_img_l" src="${getPersonImgPath(
-                              currentUser.file
-                            )}" alt="Aktuelles Angebotsbild">
+                            <img id="customer_profile_img_input_output" class="profile_img_l" src="${getPersonImgPath(currentUser.file)}" alt="Aktuelles Angebotsbild">
                             <div onclick="clickFileInput('customer_profile_img_input')"
                                 class="file_input d_flex_cc_gl btn_round_m btn_edit btn_border_secondary">
                                 <img src="./assets/icons/photo_camera.svg" alt="" srcset="">
                                 <input onchange="changeCurrentFiles(this)" type="file" id="customer_profile_img_input"
-                                    accept="image/*">
+                                    name="file" accept="image/*">
                             </div>
                         </div>
                         <p class="font_sec_color">@${currentUser.username}</p>
                         <div class="form_group">
                             <label for="edit_first_name">Vorname:</label>
-                            <input type="text" id="edit_first_name" name="first_name" value="${
-                              currentUser.first_name
-                            }" required
+                            <input type="text" id="edit_first_name" name="first_name" value="${currentUser.first_name}" required
                                 class="input_field">
                         </div>
                         <div class="form_group">
                             <label for="edit_last_name">Nachname:</label>
-                            <input type="text" id="edit_last_name" name="last_name" value="${
-                              currentUser.last_name
-                            }" required
+                            <input type="text" id="edit_last_name" name="last_name" value="${currentUser.last_name}" required
                                 class="input_field">
                         </div>
                         <div class="form_group">
                             <label for="edit_email">E-Mail-Adresse:</label>
-                            <input type="email" id="edit_email" name="email" value="${
-                              currentUser.email
-                            }" required
+                            <input type="email" id="edit_email" name="email" value="${currentUser.email}" required
                                 class="input_field">
                         </div>
                         <div class="form_actions d_flex_cc_gl">
@@ -201,18 +185,7 @@ function getCustomerOrderTemplateList() {
  */
 function getCustomerOrderTemplate(order) {
   business_user = getUserInfo(order.business_user);
-  if (
-    !order ||
-    typeof order !== "object" ||
-    !order.business_user ||
-    !order.id ||
-    !order.created_at ||
-    !order.status ||
-    !order.title ||
-    !order.delivery_time_in_days ||
-    !order.revisions ||
-    !order.price
-  ) {
+  if (!order || typeof order !== "object" || !order.business_user || !order.id || !order.created_at || !order.status || !order.title || !order.delivery_time_in_days || !order.revisions || !order.price) {
     return `
             <li class="order_item_box d_flex_cs_gm w_full f_d_c">
                 Es ist ein Fehler aufgetreten
@@ -229,34 +202,20 @@ function getCustomerOrderTemplate(order) {
                                 <h3>Bestellung #${order.id}</h3>
                                 <p>Datum: ${formatDate(order.created_at)}</p>
                             </div>
-                            <div status="${
-                              order.status
-                            }" class="order_status d_flex_cc_gm">
+                            <div status="${order.status}" class="order_status d_flex_cc_gm">
                                 <div class="order_status_icon"></div>
                                 <p>${orderStatus[order.status]}</p>
                             </div>
                         </div>
                         <div class="w_full order_item_detail d_flex_cs_gm f_d_c">
                             <div class="order_info d_flex_cs_gm f_d_c">
-                                <p class="link" onclick="redirectToCustomerProfile(${
-                                  order.business_user
-                                })"><strong>Anbieter:</strong> ${
-    business_user.user.first_name
-  } ${business_user.user.last_name}</p>
+                                <p class="link" onclick="redirectToCustomerProfile(${order.business_user})"><strong>Anbieter:</strong> ${business_user.user.first_name} ${business_user.user.last_name}</p>
                                 <p><strong>Titel:</strong> ${order.title}</p>
-                                <p><strong>Lieferzeit:</strong> ${
-                                  order.delivery_time_in_days
-                                } Tage</p>
-                                <p><strong>Revisionen:</strong> ${getOrderRevisionTemplate(
-                                  order.revisions
-                                )} </p>
-                                <p><strong>Preis:</strong> ${parseFloat(
-                                  order.price
-                                ).toFixed(2)}€</p>
+                                <p><strong>Lieferzeit:</strong> ${order.delivery_time_in_days} Tage</p>
+                                <p><strong>Revisionen:</strong> ${getOrderRevisionTemplate(order.revisions)} </p>
+                                <p><strong>Preis:</strong> ${parseFloat(order.price).toFixed(2)}€</p>
                                 <ul class="feature_list">
-                                    ${getOrderFeatureListTemplate(
-                                      order.features
-                                    )}
+                                    ${getOrderFeatureListTemplate(order.features)}
                                 </ul>
                             </div>
                             <hr>
