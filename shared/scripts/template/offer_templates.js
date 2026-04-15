@@ -235,7 +235,7 @@ function getOfferDetailDialogTemplate(detail) {
                                                 <div class="form_group w_reset d_flex_cc_gm f_d_r input_checkbox_group">
                                                     <label class="text_a_e" for="offer_revisions_${detail.offer_type}_limitless">Unbegrenzt</label>
                                                     <input onchange="changeRevisionInput(['offer_revisions_${detail.offer_type}']); hideFormErrors(['offer_revisions_${detail.offer_type}_error'])" onkeydown="" type="checkbox" id="offer_revisions_${detail.offer_type}_limitless"
-                                                        name="offer_revisions_${detail.offer_type}_limitless" ${checked}>
+                                                        name="offer_revisions_${detail.offer_type}_limitless" ${isLimitless ? "checked" : ""}>
                                                 </div>
                                                 <input value="${revisionsCount}" onkeyup="checkRevisionInput('offer_revisions_${detail.offer_type}')" onkeydown="hideFormErrors(['offer_revisions_${detail.offer_type}_error'])" class="input_field offer_revisions_input" type="number" id="offer_revisions_${detail.offer_type}"
                                                     name="offer_revisions_${detail.offer_type}" step="1" ${revisionsDisabled}>
