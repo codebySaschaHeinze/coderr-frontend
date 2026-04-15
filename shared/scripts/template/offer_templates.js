@@ -1,73 +1,72 @@
-function getOfferTemplateList(offers){
-    if (!Array.isArray(offers)) {
-        return '<p>Fehler beim Laden der Angebote</p>';
-    }
-    if (offers.length <= 0) {
-        return getEmptyOfferListTemplate();
-    }
-    let offerList = "";
-    for (let i = 0; i < offers.length; i++) {
-        offerList += getOfferTemplate(offers[i])
-    }
-    return offerList;
+function getOfferTemplateList(offers) {
+  if (!Array.isArray(offers)) {
+    return "<p>Fehler beim Laden der Angebote</p>";
+  }
+  if (offers.length <= 0) {
+    return getEmptyOfferListTemplate();
+  }
+  let offerList = "";
+  for (let i = 0; i < offers.length; i++) {
+    offerList += getOfferTemplate(offers[i]);
+  }
+  return offerList;
 }
 
-function getEmptyOfferListTemplate(){
-    return `
+function getEmptyOfferListTemplate() {
+  return `
         <div class=" d_flex_cc_gl f_d_c w_full">
             <img class="nothing_found_img" src="./assets/img/nothing_found.png" alt="Nothing found image">
             <h3 class="font_prime_color">Wir konnten keine Dienstleistungen finden, die deiner Suche entsprechen</h3>
-        </div>`
+        </div>`;
 }
 
-function getOfferPagination(currentMax, currentPage){
-    if (typeof currentMax !== 'number' || typeof currentPage !== 'number' || currentMax < 0 || currentPage < 1) {
-        return '<p>Fehler bei der Paginierung</p>';
-    }
-    if(currentMax == 0){
-        return ``;
-    }
-    return `
+function getOfferPagination(currentMax, currentPage) {
+  if (typeof currentMax !== "number" || typeof currentPage !== "number" || currentMax < 0 || currentPage < 1) {
+    return "<p>Fehler bei der Paginierung</p>";
+  }
+  if (currentMax == 0) {
+    return ``;
+  }
+  return `
     <div class="d_flex_cc_gm f_d_r w_full">
-        <button onclick="goToOfferPage(${currentPage - 1})" class="d_flex_cc_gl btn_round_m btn_edit " ${currentPage <= 1 ? 'disabled="disabled"': ""}>
+        <button onclick="goToOfferPage(${currentPage - 1})" class="d_flex_cc_gl btn_round_m btn_edit " ${currentPage <= 1 ? 'disabled="disabled"' : ""}>
             <img class="rotate_half" src="./assets/icons/arrow_right_alt.svg" alt="">
         </button>
         <div class="d_flex_cc_gm" style="width:150px;">
             ${getPaginationNumbers(currentMax, currentPage)}
         </div>
-        <button onclick="goToOfferPage(${currentPage + 1})" class="d_flex_cc_gl btn_round_m btn_edit " ${currentPage >= currentMax ? 'disabled="disabled"': ""}>
+        <button onclick="goToOfferPage(${currentPage + 1})" class="d_flex_cc_gl btn_round_m btn_edit " ${currentPage >= currentMax ? 'disabled="disabled"' : ""}>
             <img  src="./assets/icons/arrow_right_alt.svg" alt="">
         </button>
-    </div>`
+    </div>`;
 }
 
-function getPaginationNumbers(currentMax, currentPage){
-    paginationListHTML = "";
-    let start = 1;
-    let end = 3;
-    let endHTML = "";
-    if(currentPage - 2 > 0){
-        start = currentPage - 1;
-        paginationListHTML = '<p class="ws_nw">...</p>';
-    }
-    if(currentPage + 1 < currentMax){
-        end = currentPage + 1;
-        endHTML = '<p class="ws_nw">...</p>';
-    } else {
-        end = currentMax;
-    }
-    for (let i = start; i <= end; i++) {
-        paginationListHTML += `<p currentPage="${currentPage == i}" class="page_number" onclick="goToOfferPage(${i})">${i}</p>`;
-    }
-    return paginationListHTML + endHTML
+function getPaginationNumbers(currentMax, currentPage) {
+  paginationListHTML = "";
+  let start = 1;
+  let end = 3;
+  let endHTML = "";
+  if (currentPage - 2 > 0) {
+    start = currentPage - 1;
+    paginationListHTML = '<p class="ws_nw">...</p>';
+  }
+  if (currentPage + 1 < currentMax) {
+    end = currentPage + 1;
+    endHTML = '<p class="ws_nw">...</p>';
+  } else {
+    end = currentMax;
+  }
+  for (let i = start; i <= end; i++) {
+    paginationListHTML += `<p currentPage="${currentPage == i}" class="page_number" onclick="goToOfferPage(${i})">${i}</p>`;
+  }
+  return paginationListHTML + endHTML;
 }
 
-
-function getOfferTemplate(offer){
-    if (!offer || typeof offer !== 'object' || !offer.id || !offer.title || !offer.description) {
-        return '<p>Fehler beim Laden des Angebots</p>';
-    }
-    return `
+function getOfferTemplate(offer) {
+  if (!offer || typeof offer !== "object" || !offer.id || !offer.title || !offer.description) {
+    return "<p>Fehler beim Laden des Angebots</p>";
+  }
+  return `
                 <div onclick="redirectToOffer(${offer.id})" class="offer_card d_flex_ss_gm f_d_c">
                     <img class="offer_image" src="${getOfferImgPath(offer.image)}" alt="Angebotsbild">
                     <div class="d_flex_cs_gm f_d_c">
@@ -79,29 +78,27 @@ function getOfferTemplate(offer){
                             <h3 class="font_prime_color">ab ${offer.min_price} €</h3>
                         </div>
                     </div>
-                </div>`
+                </div>`;
 }
 
+function getUpdateOrCreateDate(offer) {
+  const time1 = new Date(offer.created_at);
+  const time2 = new Date(offer.updated_at);
 
-function getUpdateOrCreateDate(offer){
-    const time1 = new Date(offer.created_at);
-    const time2 = new Date(offer.updated_at);
+  timeDifference = Math.abs(time2 - time1) / (1000 * 60 * 60);
 
-    timeDifference = Math.abs(time2 - time1) / (1000 * 60 * 60)
-
-    if(timeDifference < 1){
-        return 'Erstellt: ' + formatToMonthYearAndDay(offer.created_at)
-    } else {
-        return 'Aktualisiert: ' + formatToMonthYearAndDay(offer.updated_at)
-    }
+  if (timeDifference < 1) {
+    return "Erstellt: " + formatToMonthYearAndDay(offer.created_at);
+  } else {
+    return "Aktualisiert: " + formatToMonthYearAndDay(offer.updated_at);
+  }
 }
-
 
 function getBusinessOfferTemplate(offer) {
-    if (!offer || typeof offer !== 'object' || !offer.id || !offer.title || !offer.description) {
-        return '<p>Fehler beim Laden des Angebots</p>';
-    }
-    return `
+  if (!offer || typeof offer !== "object" || !offer.id || !offer.title || !offer.description) {
+    return "<p>Fehler beim Laden des Angebots</p>";
+  }
+  return `
                     <div class="d_flex_cs_gm f_d_c pos_rel w_full">
                         <button onclick="openOfferDialog(${offer.id})"
                             class="d_flex_cc_gl btn_round_m btn_edit abs_pos_edit_btn_s">
@@ -114,23 +111,23 @@ function getBusinessOfferTemplate(offer) {
                             <h3 class="font_prime_color">ab ${offer.min_price} €</h3>
                         </div>
                         <button onclick="redirectToOffer(${offer.id})" class="std_btn btn_prime d_flex_cc_gm ">Zum Angebot</button>
-                    </div>`
+                    </div>`;
 }
 
 function getOfferDialogWrapperTemplate() {
-    return `<section id="dialog_add_edit_offer" class="dialog d_flex_cc_gl pad_m d_none" ></section>`
+  return `<section id="dialog_add_edit_offer" class="dialog d_flex_cc_gl pad_m d_none" ></section>`;
 }
 
 function getOfferDialogTemplate() {
-    if (!Array.isArray(currentOffers) || !currentOffer) {
-        return '<p>Fehler beim Laden des Angebotsdialogs</p>';
-    }
+  if (!Array.isArray(currentOffers) || !currentOffer) {
+    return "<p>Fehler beim Laden des Angebotsdialogs</p>";
+  }
 
-    let offer = currentOffers.find(item => item.id === currentOfferId)
-    let title = currentOfferId ? "Angebot bearbeiten" : "Angebot hinzufügen";
-    let submitBtnText = currentOfferId ? "Bearbeiten" : "Hinzufügen";
-    let deleteBtn = currentOfferId ? '<button onclick="deleteOffer()" type="button" class="std_btn btn_delete pad_s ">Angebot löschen</button>' : "";
-    return `    <div onclick="stopProp(event)" class="m_auto dialog_content large_form d_flex_cc_gl f_d_c m_auto pos_rel">
+  let offer = currentOffers.find((item) => item.id === currentOfferId);
+  let title = currentOfferId ? "Angebot bearbeiten" : "Angebot hinzufügen";
+  let submitBtnText = currentOfferId ? "Bearbeiten" : "Hinzufügen";
+  let deleteBtn = currentOfferId ? '<button onclick="deleteOffer()" type="button" class="std_btn btn_delete pad_s ">Angebot löschen</button>' : "";
+  return `    <div onclick="stopProp(event)" class="m_auto dialog_content large_form d_flex_cc_gl f_d_c m_auto pos_rel">
                     <h2 class="font_prime_color p_top_s">${title}</h2> 
                     <button onclick="closeEditDialog()"
                         class="d_flex_cc_gl btn_round_l btn_edit abs_pos_edit_btn_m">
@@ -173,28 +170,28 @@ function getOfferDialogTemplate() {
                             ${deleteBtn}
                         </div>
                     </form>
-                </div>`
+                </div>`;
 }
 
 function getOfferDetailDialogTemplateList() {
-    if (!currentOffer || !Array.isArray(currentOffer.details) || currentOffer.details.length === 0) {
-        return '<p>Fehler beim Laden der Angebotsdetails</p>';
-    }
+  if (!currentOffer || !Array.isArray(currentOffer.details) || currentOffer.details.length === 0) {
+    return "<p>Fehler beim Laden der Angebotsdetails</p>";
+  }
 
-    let detailTemplateList = "";
-    for (let index = 0; index < currentOffer.details.length; index++) {
-        detailTemplateList += getOfferDetailDialogTemplate(currentOffer.details[index])
-    }
+  let detailTemplateList = "";
+  for (let index = 0; index < currentOffer.details.length; index++) {
+    detailTemplateList += getOfferDetailDialogTemplate(currentOffer.details[index]);
+  }
 
-    return detailTemplateList;
+  return detailTemplateList;
 }
 
 function getOfferDetailDialogTemplate(detail) {
-    let checked = detail.revisions == -1 ? "checked" : "";
-    let revisionsCount = detail.revisions < 0 ? 0 : detail.revisions;
-    let revisionsDisabled = detail.revisions == null || detail.revisions >= 0 ? "" : "disabled";
+  const isLimitless = Number(detail.revisions) === 0;
+  const revisionsCount = detail.revisions == null ? "" : detail.revisions;
+  const revisionsDisabled = isLimitless ? "disabled" : "";
 
-    return `            <section class="variant_section section_group d_flex_cs_gl f_d_c">
+  return `            <section class="variant_section section_group d_flex_cs_gl f_d_c">
                             <button id="add_offer_${detail.offer_type}_btn" type="button" open="false"
                                 class="std_btn btn_prime pad_s order_btn_close d_flex_cc_gm" onclick="toggleOpen(this)">
                                 <img src="./assets/icons/close.png" alt="" srcset="">
@@ -249,36 +246,34 @@ function getOfferDetailDialogTemplate(detail) {
                                 </div>
                                 <hr>
                             </div>
-                        </section>`
+                        </section>`;
 }
 
-
-
 function getOfferDetailFeatureTemplateList(detail) {
-    if (!detail || typeof detail !== 'object' || !Array.isArray(detail.features)) {
-        return '<p>Fehler beim Laden der Angebotsfeatures</p>';
-    }
-    let featureTemplateList = ""
-    for (let featureIndex = 0; featureIndex < detail.features.length; featureIndex++) {
-        featureTemplateList += getOfferDetailFeatureTemplate(detail, featureIndex)
-    }
+  if (!detail || typeof detail !== "object" || !Array.isArray(detail.features)) {
+    return "<p>Fehler beim Laden der Angebotsfeatures</p>";
+  }
+  let featureTemplateList = "";
+  for (let featureIndex = 0; featureIndex < detail.features.length; featureIndex++) {
+    featureTemplateList += getOfferDetailFeatureTemplate(detail, featureIndex);
+  }
 
-    featureTemplateList += `
+  featureTemplateList += `
                                             <li class="feature_list_input_box d_flex_cc_gm f_d_r_resp_c">
                                                 <input class="input_field" type="text" id="new_feature_${detail.offer_type}"
                                                     placeholder="Neues Feature hinzufügen">
                                                 <button onclick="addNewFeature('new_feature_${detail.offer_type}', '${detail.offer_type}')" type="button"
                                                     class="btn_add_new_feature link pad_s">Hinzufügen +</button>
-                                            </li>`
-    return featureTemplateList;
+                                            </li>`;
+  return featureTemplateList;
 }
 
 function getOfferDetailFeatureTemplate(detail, featureIndex) {
-    if (!detail || typeof detail !== 'object' || !Array.isArray(detail.features) || featureIndex < 0 || featureIndex >= detail.features.length) {
-        return '<p>Fehler beim Laden des Angebotsfeatures</p>';
-    }
-    if (!isInEdit(`feature_${detail.offer_type}_${featureIndex}_input`)) {
-        return `                            <li class="feature_list_edit_element pad_s" id="feature_${detail.offer_type}_${featureIndex}">
+  if (!detail || typeof detail !== "object" || !Array.isArray(detail.features) || featureIndex < 0 || featureIndex >= detail.features.length) {
+    return "<p>Fehler beim Laden des Angebotsfeatures</p>";
+  }
+  if (!isInEdit(`feature_${detail.offer_type}_${featureIndex}_input`)) {
+    return `                            <li class="feature_list_edit_element pad_s" id="feature_${detail.offer_type}_${featureIndex}">
                                                 <p>${detail.features[featureIndex]}</p>
                                                 <div class="d_flex_cc_gm f_d_r">
                                                     <button onclick="openEditFeature('feature_${detail.offer_type}_${featureIndex}_input','${detail.offer_type}',${featureIndex})" type="button" class="d_flex_cc_gl btn_round_m btn_edit">
@@ -288,14 +283,14 @@ function getOfferDetailFeatureTemplate(detail, featureIndex) {
                                                         <img src="./assets/icons/delete_join.svg" alt="">
                                                     </button>
                                                 </div>
-                                            </li>`
-    } else {
-        return getOfferDetailFeatureEditTemplate(detail, featureIndex)
-    }
+                                            </li>`;
+  } else {
+    return getOfferDetailFeatureEditTemplate(detail, featureIndex);
+  }
 }
 
 function getOfferDetailFeatureEditTemplate(detail, featureIndex) {
-    return `                            <li id="feature_${detail.offer_type}_${featureIndex}">
+  return `                            <li id="feature_${detail.offer_type}_${featureIndex}">
                                             <input onkeyup="updateEditFeature('feature_${detail.offer_type}_${featureIndex}_input')" class="input_field" type="text"
                                                     id="feature_${detail.offer_type}_${featureIndex}_input" value="${getEditFeature(`feature_${detail.offer_type}_${featureIndex}_input`).value}">
                                             <div class="d_flex_cs_gm">
@@ -307,5 +302,5 @@ function getOfferDetailFeatureEditTemplate(detail, featureIndex) {
                                                     </button>
                                             </div>
                                         </li>
-                                        <p id="feature_${detail.offer_type}_${featureIndex}_input_error" class="form_error d_none">Bitte beende den Vorgang</p>`
+                                        <p id="feature_${detail.offer_type}_${featureIndex}_input_error" class="form_error d_none">Bitte beende den Vorgang</p>`;
 }
