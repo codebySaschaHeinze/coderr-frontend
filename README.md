@@ -1,46 +1,45 @@
-# Coderr/ Frontend Project
+# Coderr Frontend
 
-![Coderr Logo](assets/logo/logo_coderr.svg)
+Coderr is a course project frontend for a service marketplace where customers can browse IT service offers and business users can present their profiles and services.
 
-Dieses Projekt ist ein einfaches Frontend, das mit **Vanilla JavaScript** (reines JavaScript ohne Frameworks) erstellt wurde. Es wurde speziell entwickelt, um Schülern der **Developer Akademie** mit Backend-Erfahrung den Einstieg in kleinere Frontend-Anpassungen zu erleichtern.
+## Project Context
 
----
+This frontend was provided as part of a course project at Developer Akademie.
 
-## Voraussetzungen
+My main contribution in the related project was the backend implementation, including the REST API, authentication, business logic, database models, tests, and deployment preparation.
 
-- Ein funktionierendes Django-Backend (`Coderr/`), das **nicht** in diesem Projekt enthalten ist.
-- Visual Studio Code mit der **Live Server**-Erweiterung oder eine ähnliche Möglichkeit, die `index.html` lokal im Browser zu starten.
+This repository is kept public to show the full project setup and how the provided frontend connects to and demonstrates the backend functionality.
 
----
+## Tech Stack
 
-## Nutzung
+- HTML
+- CSS
+- Vanilla JavaScript
+- Fetch API for backend communication
+- JSDoc documentation generated in `scripts/docs/`
 
-1. Stelle sicher, dass das Backend `Coderr/` läuft.
-2. Öffne dieses Projekt in **Visual Studio Code**.
-3. Rechtsklicke auf die Datei `index.html` und wähle **Open with Live Server**, um das Projekt zu starten.
+## Features
 
----
+- Landing page with search entry point and platform statistics
+- User registration for customer and business accounts
+- Login and guest login flows
+- Offer listing with search, filtering, sorting, and pagination
+- Offer detail page with package selection
+- Business and customer profile pages
+- Own profile page with editable profile data and order-related views
+- Review display, filtering, and review submission dialogs
+- Imprint and privacy policy pages
 
-## Ziel des Projekts
+## Local Setup
 
-Dieses Frontend wurde bewusst mit **Vanilla JavaScript** erstellt, um die folgenden Ziele zu erreichen:
+This project does not include a package manager setup or build script. It is a static frontend that expects a running backend API.
 
-- **Einfacher Einstieg**: Durch den Verzicht auf Frameworks wie React oder Angular bleibt der Code leicht verständlich und nachvollziehbar.
-- **Lernen durch Anpassung**: Schüler können den Code anpassen, um kleine Änderungen vorzunehmen und Frontend-Konzepte besser zu verstehen.
-- **Backend-Erweiterung**: Das Projekt lässt sich einfach an das bestehende Django-Backend `Coderr/` anbinden.
+1. Start the related Coderr backend.
+2. Serve this frontend with a local static server, for example with the Visual Studio Code Live Server extension.
+3. Open `index.html` in the browser through the local server.
 
----
+The backend API base URL is configured in `shared/scripts/config.js`.
 
-## Hinweis
+## Related Backend Repository
 
-Dieses Projekt ist **ausschließlich für Schüler der Developer Akademie** gedacht und nicht zur freien Nutzung oder Weitergabe freigegeben.
-
----
-
-## JSDoc - ansehen
-
-1. Navigiere in den Ordner `docs/`
-2. Du kannst das Projekt öffnen mit Doppelklick auf `docs/index.html`, oder im Terminal 
-    Windows: `start docs/index.html`
-    macOS: `open docs/index.html`
-    Linus: `xdg-open docs/index.html` 
+[Backend Repository](https://github.com/codebySaschaHeinze/coderr-backend)
